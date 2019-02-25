@@ -1,0 +1,7 @@
+{
+  "extends": "tslint-ionic-rules",
+  "rules": {
+    "no-eval": false,
+    "eofline": false
+  }
+}
