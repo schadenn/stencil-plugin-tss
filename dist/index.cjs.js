@@ -113,8 +113,13 @@ function formatHeader(type, fileName, rootDir, startLineNumber = null, endLineNu
 }
 const STOP_CHARS = ['', '\n', '\r', '\t', ' ', ':', ';', ',', '{', '}', '.', '#', '@', '!', '[', ']', '(', ')', '&', '+', '~', '^', '*', '$'];
 
+const styled = (parts, ...values) => parts.map((part, i) => `${part}${values[i] || ''}`).join('');
 function tss(config) {
-    const usePlugin = (fileName) => /(.*\.(style|styles)\.ts)/i.test(fileName);
+    const usePlugin = (fileName) => {
+        const infix = config.tssFileInfix || 'styles';
+        const tester = new RegExp('(.*.(' + infix + ').ts)', 'i');
+        return tester.test(fileName);
+    };
     const changeFileNameExt = (fileName, ext) => fileName
         .split('.')
         .map((part, i, arr) => (i === arr.length - 1 ? ext : part))
@@ -147,7 +152,7 @@ function tss(config) {
                     const jsFileName = changeFileNameExt(fileName, 'js');
                     const style = requireFromString(output.code, jsFileName);
                     results.code = stylis('', style);
-                    if (config.logErrors) {
+                    if (config.logCssErrors) {
                         JSON.parse(validator.reporters.json(validator.validateString(results.code))).forEach((error) => {
                             if (!['-webkit-', '-ms-', '-moz-'].some(prefix => error.message.includes(prefix))) {
                                 console.log(chalk.red('CSS-Error in file:') +
@@ -181,4 +186,5 @@ function tss(config) {
     };
 }
 
+exports.styled = styled;
 exports.tss = tss;
