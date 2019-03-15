@@ -8,8 +8,6 @@ import validator from 'csstree-validator';
 import cssBeautify from 'cssbeautify';
 import chalk from 'chalk';
 
-console.log(requireFromString);
-
 export function tss(config: { logErrors: boolean }) {
   const usePlugin = (fileName: string) =>
     /(.*\.(style|styles)\.ts)/i.test(fileName);
@@ -48,7 +46,7 @@ export function tss(config: { logErrors: boolean }) {
           .then(bundle => bundle && bundle.generate({ format: 'cjs' }))
           .then(output => {
             const jsFileName = changeFileNameExt(fileName, 'js');
-            const style = requireFromString.requireFromString(
+            const style = requireFromString(
               output.code,
               jsFileName
             );
