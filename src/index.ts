@@ -8,9 +8,15 @@ import validator from 'csstree-validator';
 import cssBeautify from 'cssbeautify';
 import chalk from 'chalk';
 
-export function tss(config?: { logErrors: boolean }) {
-  const usePlugin = (fileName: string) =>
-    /(.*\.(style|styles)\.ts)/i.test(fileName);
+export const styled = (parts: TemplateStringsArray, ...values: any[]) =>
+  parts.map((part, i) => `${part}${values[i] || ''}`).join('');
+
+export function tss(config?: { logCssErrors: boolean; tssFileInfix: string }) {
+  const usePlugin = (fileName: string) => {
+    const infix = config.tssFileInfix || 'styles';
+    const tester = new RegExp('(.*.(' + infix + ').ts)', 'i');
+    return tester.test(fileName);
+  };
   const changeFileNameExt = (fileName: string, ext: string) =>
     fileName
       .split('.')
@@ -46,49 +52,52 @@ export function tss(config?: { logErrors: boolean }) {
           .then(bundle => bundle && bundle.generate({ format: 'cjs' }))
           .then(output => {
             const jsFileName = changeFileNameExt(fileName, 'js');
-            const style = requireFromString(
-              output.code,
-              jsFileName
-            );
+            const style = requireFromString(output.code, jsFileName);
             results.code = stylis('', style);
-            if (config.logErrors) {
+            if (config.logCssErrors) {
               JSON.parse(
                 validator.reporters.json(validator.validateString(results.code))
-              ).forEach((error: {message: string, details: string, column: number, }) => {
-                if (
-                  !['-webkit-', '-ms-', '-moz-'].some(prefix =>
-                    error.message.includes(prefix)
-                  )
-                ) {
-                  console.log(
-                    chalk.red('CSS-Error in file:') +
-                      fileName.substring(fileName.lastIndexOf('/'))
-                  );
-                  console.log(chalk.red(error.message));
-                  if (error.details) {
-                    console.log('\n' + chalk.cyan('Details:'));
-                    console.log(error.details);
-                  }
-                  console.log('\n' + chalk.cyan('Exactly here:'));
-                  console.log(
-                    `${results.code.substr(error.column - 10, 10)}${chalk.red(
-                      results.code[error.column]
-                    )}${results.code.substr(error.column + 1, 10)}`
-                  );
-                  console.log('\n' + chalk.cyan('Around here:'));
-                  const cssBefore = results.code.substring(0, error.column);
-                  const cssAfter = results.code.substring(error.column);
-                  console.log(
-                    cssBeautify(
-                      results.code.substring(
-                        cssBefore.lastIndexOf('}') - 15,
-                        cssBefore.length + cssAfter.indexOf('}') + 15
-                      )
+              ).forEach(
+                (error: {
+                  message: string;
+                  details: string;
+                  column: number;
+                }) => {
+                  if (
+                    !['-webkit-', '-ms-', '-moz-'].some(prefix =>
+                      error.message.includes(prefix)
                     )
-                  );
-                  console.log('\n' + '-'.repeat(35) + '\n');
+                  ) {
+                    console.log(
+                      chalk.red('CSS-Error in file:') +
+                        fileName.substring(fileName.lastIndexOf('/'))
+                    );
+                    console.log(chalk.red(error.message));
+                    if (error.details) {
+                      console.log('\n' + chalk.cyan('Details:'));
+                      console.log(error.details);
+                    }
+                    console.log('\n' + chalk.cyan('Exactly here:'));
+                    console.log(
+                      `${results.code.substr(error.column - 10, 10)}${chalk.red(
+                        results.code[error.column]
+                      )}${results.code.substr(error.column + 1, 10)}`
+                    );
+                    console.log('\n' + chalk.cyan('Around here:'));
+                    const cssBefore = results.code.substring(0, error.column);
+                    const cssAfter = results.code.substring(error.column);
+                    console.log(
+                      cssBeautify(
+                        results.code.substring(
+                          cssBefore.lastIndexOf('}') - 15,
+                          cssBefore.length + cssAfter.indexOf('}') + 15
+                        )
+                      )
+                    );
+                    console.log('\n' + '-'.repeat(35) + '\n');
+                  }
                 }
-              });
+              );
             }
             // write this css content to memory only so it can be referenced
             // later by other plugins (autoprefixer)
