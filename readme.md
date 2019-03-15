@@ -28,18 +28,23 @@ export const config: Config = {
 
 During development, this plugin will kick-in for `*tssFileInfix*.ts` style urls, and precompile them to CSS.
 
-## Recommendations
+### HMR
 
 For better hot-module-reloading currently the stencil compiler has to be modified slightly.
-Run `node node_modules/stencil-plugin-tss/rewriteStencil.js` to do the needed modifications. I will open a
-feature-request in the official Stencil project to make this configurable.
+
+Run: `node node_modules/stencil-plugin-tss/rewriteStencil.js`
+
+This will do the necessary modifications. I will open a feature-request in the official Stencil project to make this configurable.
+
+### Code Highlighting
 
 For better usability install styled component plugin within your IDE:
-[VSCode](https://github.com/styled-components/vscode-styled-components)
-[IntelliJ](https://plugins.jetbrains.com/plugin/9997-styled-components)
+* [VSCode](https://github.com/styled-components/vscode-styled-components)
+* [IntelliJ](https://plugins.jetbrains.com/plugin/9997-styled-components)
 
 You can then use:
 `import { styled } from "stencil-plugin-tss"`
+
 And prefix all your template literal CSS strings with `styled` to get CSS highlighting and IntelliSense.
 
 ## Related
