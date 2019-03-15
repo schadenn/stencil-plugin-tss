@@ -7,7 +7,7 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 var typescript = _interopDefault(require('rollup-plugin-typescript'));
 var rollup = require('rollup');
 var stylis = _interopDefault(require('stylis'));
-var requireFromString = require('require-from-string');
+var requireFromString = _interopDefault(require('require-from-string'));
 var validator = _interopDefault(require('csstree-validator'));
 var cssBeautify = _interopDefault(require('cssbeautify'));
 var chalk = _interopDefault(require('chalk'));
@@ -113,7 +113,6 @@ function formatHeader(type, fileName, rootDir, startLineNumber = null, endLineNu
 }
 const STOP_CHARS = ['', '\n', '\r', '\t', ' ', ':', ';', ',', '{', '}', '.', '#', '@', '!', '[', ']', '(', ')', '&', '+', '~', '^', '*', '$'];
 
-console.log(requireFromString);
 function tss(config) {
     const usePlugin = (fileName) => /(.*\.(style|styles)\.ts)/i.test(fileName);
     const changeFileNameExt = (fileName, ext) => fileName
@@ -146,7 +145,7 @@ function tss(config) {
                     .then(bundle => bundle && bundle.generate({ format: 'cjs' }))
                     .then(output => {
                     const jsFileName = changeFileNameExt(fileName, 'js');
-                    const style = requireFromString.requireFromString(output.code, jsFileName);
+                    const style = requireFromString(output.code, jsFileName);
                     results.code = stylis('', style);
                     if (config.logErrors) {
                         JSON.parse(validator.reporters.json(validator.validateString(results.code))).forEach((error) => {

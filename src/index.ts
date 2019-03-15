@@ -2,13 +2,13 @@ import { loadDiagnostic } from './diagnostics';
 import typescript from 'rollup-plugin-typescript';
 import { rollup } from 'rollup';
 import { default as stylis } from 'stylis';
-import * as requireFromString from 'require-from-string';
+import { default as requireFromString } from 'require-from-string';
 import * as d from './declarations';
 import validator from 'csstree-validator';
 import cssBeautify from 'cssbeautify';
 import chalk from 'chalk';
 
-export function tss(config: { logErrors: boolean }) {
+export function tss(config?: { logErrors: boolean }) {
   const usePlugin = (fileName: string) =>
     /(.*\.(style|styles)\.ts)/i.test(fileName);
   const changeFileNameExt = (fileName: string, ext: string) =>

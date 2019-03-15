@@ -1,8 +1,7 @@
 import typescript from 'rollup-plugin-typescript';
 import { rollup } from 'rollup';
 import stylis from 'stylis';
-import * as requireFromString from 'require-from-string';
-import { requireFromString as requireFromString$1 } from 'require-from-string';
+import requireFromString from 'require-from-string';
 import validator from 'csstree-validator';
 import cssBeautify from 'cssbeautify';
 import chalk from 'chalk';
@@ -108,7 +107,6 @@ function formatHeader(type, fileName, rootDir, startLineNumber = null, endLineNu
 }
 const STOP_CHARS = ['', '\n', '\r', '\t', ' ', ':', ';', ',', '{', '}', '.', '#', '@', '!', '[', ']', '(', ')', '&', '+', '~', '^', '*', '$'];
 
-console.log(requireFromString);
 function tss(config) {
     const usePlugin = (fileName) => /(.*\.(style|styles)\.ts)/i.test(fileName);
     const changeFileNameExt = (fileName, ext) => fileName
@@ -141,7 +139,7 @@ function tss(config) {
                     .then(bundle => bundle && bundle.generate({ format: 'cjs' }))
                     .then(output => {
                     const jsFileName = changeFileNameExt(fileName, 'js');
-                    const style = requireFromString$1(output.code, jsFileName);
+                    const style = requireFromString(output.code, jsFileName);
                     results.code = stylis('', style);
                     if (config.logErrors) {
                         JSON.parse(validator.reporters.json(validator.validateString(results.code))).forEach((error) => {

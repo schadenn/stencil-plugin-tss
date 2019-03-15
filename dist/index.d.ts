@@ -1,5 +1,5 @@
 import * as d from './declarations';
-export declare function tss(config: {
+export declare function tss(config?: {
     logErrors: boolean;
 }): {
     name: string;
