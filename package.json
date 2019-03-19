@@ -19,11 +19,15 @@
   },
   "dependencies": {
     "@types/cssbeautify": "^0.3.1",
+    "@types/rollup-plugin-commonjs": "^9.2.0",
+    "@types/rollup-plugin-node-resolve": "^4.0.0",
     "chalk": "^2.4.2",
     "cssbeautify": "^0.3.1",
     "csstree-validator": "^1.4.0",
     "require-from-string": "^2.0.2",
     "rollup": "^0.66.6",
+    "rollup-plugin-commonjs": "^9.2.1",
+    "rollup-plugin-node-resolve": "^4.0.1",
     "rollup-plugin-typescript": "^1.0.0",
     "stylis": "^3.5.4"
   },

@@ -7,11 +7,16 @@ import * as d from './declarations';
 import validator from 'csstree-validator';
 import cssBeautify from 'cssbeautify';
 import chalk from 'chalk';
+import commonjs from 'rollup-plugin-commonjs';
+import nodeResolve from 'rollup-plugin-node-resolve';
 
 export const styled = (parts: TemplateStringsArray, ...values: any[]) =>
   parts.map((part, i) => `${part}${values[i] || ''}`).join('');
 
-export function tss(config?: { logCssErrors?: boolean; tssFileInfix?: string }) {
+export function tss(config?: {
+  logCssErrors?: boolean;
+  tssFileInfix?: string;
+}) {
   const usePlugin = (fileName: string) => {
     const infix = config.tssFileInfix || 'styles';
     const tester = new RegExp('(.*.(' + infix + ').ts)', 'i');
@@ -40,7 +45,7 @@ export function tss(config?: { logCssErrors?: boolean; tssFileInfix?: string }) 
       return new Promise<d.PluginTransformResults>(resolve => {
         rollup({
           input: fileName,
-          plugins: [typescript()]
+          plugins: [typescript(), commonjs(), nodeResolve()]
         })
           .catch(err => {
             loadDiagnostic(context, err, fileName);
