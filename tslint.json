@@ -3,6 +3,6 @@
   "rules": {
     "no-eval": false,
     "eofline": false,
-    "linebreak-style": [true, "CRLF"]
+    "linebreak-style": [false, "CRLF"]
   }
 }
