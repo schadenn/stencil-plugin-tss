@@ -11,7 +11,7 @@ import chalk from 'chalk';
 export const styled = (parts: TemplateStringsArray, ...values: any[]) =>
   parts.map((part, i) => `${part}${values[i] || ''}`).join('');
 
-export function tss(config?: { logCssErrors: boolean; tssFileInfix: string }) {
+export function tss(config?: { logCssErrors?: boolean; tssFileInfix?: string }) {
   const usePlugin = (fileName: string) => {
     const infix = config.tssFileInfix || 'styles';
     const tester = new RegExp('(.*.(' + infix + ').ts)', 'i');
