@@ -2,6 +2,7 @@
   "extends": "tslint-ionic-rules",
   "rules": {
     "no-eval": false,
-    "eofline": false
+    "eofline": false,
+    "linebreak-style": [true, "CRLF"]
   }
 }
