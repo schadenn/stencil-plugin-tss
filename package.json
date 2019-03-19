@@ -1,6 +1,6 @@
 {
   "name": "stencil-plugin-tss",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
@@ -32,6 +32,7 @@
     "np": "^3.0.4",
     "prettier": "^1.16.4",
     "rimraf": "^2.6.2",
+    "rollup-plugin-copy": "^0.2.3",
     "tslint": "^5.11.0",
     "tslint-ionic-rules": "0.0.19",
     "typescript": "3.0.3"
