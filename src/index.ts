@@ -79,9 +79,9 @@ export function tss(config?: { logCssErrors?: boolean; tssFileInfix?: string }) 
                     }
                     console.log('\n' + chalk.cyan('Exactly here:'));
                     console.log(
-                      `${results.code.substr(error.column - 10, 10)}${chalk.red(
-                        results.code[error.column]
-                      )}${results.code.substr(error.column + 1, 10)}`
+                      `${results.code.substr(error.column - 11, 10)}${chalk.red(
+                        results.code[error.column - 1]
+                      )}${results.code.substr(error.column, 10)}`
                     );
                     console.log('\n' + chalk.cyan('Around here:'));
                     const cssBefore = results.code.substring(0, error.column);
