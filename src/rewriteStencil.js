@@ -1,7 +1,7 @@
 const replace = require('replace-in-file');
 
 replace({
-  files: '../@stencil/core/dist/compiler/index.js',
+  files: './node_modules/@stencil/core/dist/compiler/index.js',
   from:
     "const STYLE_EXT$1 = ['css', 'scss', 'sass', 'pcss', 'styl', 'stylus', 'less']",
   to:
@@ -10,14 +10,14 @@ replace({
   .then(changes => {
     console.log('Modified files:', changes.join(', '));
     replace({
-      files: '../@stencil/core/dist/compiler/index.js',
+    files: './node_modules/@stencil/core/dist/compiler/index.js',
       from: "if (!styleText.includes('@import')) {",
       to: "if (!styleText.includes('import')) {"
     })
       .then(changes => {
         console.log('Modified files:', changes.join(', '));
         replace({
-          files: '../@stencil/core/dist/compiler/index.js',
+            files: './node_modules/@stencil/core/dist/compiler/index.js',
           from:
             'const IMPORT_RE = /(@import)\\s+(url\\()?\\s?(.*?)\\s?\\)?([^;]*);?/gi;',
           to:

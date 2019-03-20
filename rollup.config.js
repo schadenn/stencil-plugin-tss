@@ -7,7 +7,8 @@ export default {
   external: ["path"],
   plugins: [
       copy({
-        "src/rewriteStencil.js": "dist/rewriteStencil.js"
+        "src/rewriteStencil.js": "dist/rewriteStencil.js",
+        "src/styled.ts": "dist/styled.ts"
       })
   ],
 

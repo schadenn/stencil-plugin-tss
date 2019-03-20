@@ -8,10 +8,6 @@ import validator from 'csstree-validator';
 import cssBeautify from 'cssbeautify';
 import chalk from 'chalk';
 import commonjs from 'rollup-plugin-commonjs';
-import nodeResolve from 'rollup-plugin-node-resolve';
-
-export const styled = (parts: TemplateStringsArray, ...values: any[]) =>
-  parts.map((part, i) => `${part}${values[i] || ''}`).join('');
 
 export function tss(config?: {
   logCssErrors?: boolean;
@@ -45,7 +41,10 @@ export function tss(config?: {
       return new Promise<d.PluginTransformResults>(resolve => {
         rollup({
           input: fileName,
-          plugins: [typescript(), commonjs(), nodeResolve()]
+          plugins: [
+            typescript({ module: 'CommonJs' }),
+            commonjs({ extensions: ['.js', '.ts'] })
+          ]
         })
           .catch(err => {
             loadDiagnostic(context, err, fileName);
