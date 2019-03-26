@@ -24,6 +24,7 @@
     "chalk": "^2.4.2",
     "cssbeautify": "^0.3.1",
     "csstree-validator": "^1.4.0",
+    "replace-in-file": "^3.4.4",
     "require-from-string": "^2.0.2",
     "rollup": "^0.66.6",
     "rollup-plugin-commonjs": "^9.2.1",
